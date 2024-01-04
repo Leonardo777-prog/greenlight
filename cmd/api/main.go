@@ -58,14 +58,9 @@ func main() {
 		logger: logger,
 	}
 
-	// declaramos un nuevo server de mux
-
-	mux := http.NewServeMux()
-	mux.HandleFunc("/v1/healthcheck", app.healthcheckHandler)
-
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", configuration.port),
-		Handler:      mux,
+		Handler:      app.routes(),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
@@ -79,5 +74,4 @@ func main() {
 	logger.Error(err.Error())
 
 	os.Exit(1)
-
 }
